@@ -1,0 +1,8 @@
+node_modules
+dist
+.astro
+.superpowers
+tests/*.local.txt
+# planning notes and handoff stay local (public repo)
+docs/
+HANDOFF.md

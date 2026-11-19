@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro';
+import About from './About.astro';
+import Skills from './Skills.astro';
+import Projects from './Projects.astro';
+import Experience from './Experience.astro';
+import Freelance from './Freelance.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+import { t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang} title={t(lang, 'title')} description={t(lang, 'description')}>
+  <Nav lang={lang} />
+  <main>
+    <About lang={lang} />
+    <Skills lang={lang} />
+    <Projects lang={lang} />
+    <Experience lang={lang} />
+    <Freelance lang={lang} />
+    <Contact lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Base>
+<script>
+  import { initReveal } from '../scripts/reveal';
+  initReveal('[data-reveal]');
+</script>

@@ -1,0 +1,24 @@
+---
+// GitHub Pages serves this one file for every missing path, so it speaks both languages.
+import Base from '../layouts/Base.astro';
+import Roll from '../components/Roll.astro';
+---
+<Base lang="en" title="404 · Simon Zwenger" description="This page does not exist." noindex>
+  <main class="nf">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>This page does not exist.</h1>
+    <p lang="de" class="de">Diese Seite gibt es nicht.</p>
+    <p class="links">
+      <a href="/"><Roll text="Back home" /> <span aria-hidden="true">↗</span></a>
+      <a href="/de/" lang="de" hreflang="de"><Roll text="Zur Startseite" /> <span aria-hidden="true">↗</span></a>
+    </p>
+  </main>
+</Base>
+<style>
+  .nf { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 48px var(--gutter); }
+  .code { margin: 0; font-size: clamp(7rem, 26vw, 20rem); font-weight: 700; line-height: .85; letter-spacing: -.06em; }
+  h1 { margin: 32px 0 6px; font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 600; letter-spacing: -.02em; }
+  .de { margin: 0; color: var(--muted); font-size: clamp(1.1rem, 2.2vw, 1.5rem); }
+  .links { display: flex; flex-wrap: wrap; gap: 28px; margin: 40px 0 0; font-weight: 600; }
+  .links a { display: inline-flex; gap: 6px; text-decoration: none; }
+</style>

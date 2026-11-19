@@ -1,0 +1,32 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+import Roll from './Roll.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const p = profile[lang];
+---
+<footer class="foot">
+  <div class="inner">
+    <div class="row">
+      <p class="line">{t(lang, 'footerLine')}</p>
+      <a href="#top" class="top"><Roll text={t(lang, 'backToTop')} /> <span aria-hidden="true">↑</span></a>
+    </div>
+    <p class="name" aria-hidden="true">{p.name.split(' ')[0]}<span>.</span></p>
+    <div class="row small">
+      <span>©2026 {p.name}</span>
+      <span>{p.location}</span>
+    </div>
+  </div>
+</footer>
+<style>
+  .foot { position: relative; z-index: 1; margin-top: clamp(120px, 20vh, 220px); padding: 0 var(--gutter) 28px; border-top: 1px solid var(--line); }
+  .inner { max-width: 1180px; margin-inline: auto; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 28px; }
+  .line { margin: 0; color: var(--muted); font-size: .9rem; }
+  .top { display: inline-flex; gap: 6px; text-decoration: none; font-size: .9rem; font-weight: 600; }
+  /* Oversized typographic sign-off, clipped at the baseline. */
+  .name { margin: 6vh 0 0; font-size: clamp(5rem, 22vw, 20rem); font-weight: 700; letter-spacing: -.06em; line-height: .78; text-align: center; overflow: hidden; }
+  .name span { color: var(--muted); }
+  .small { color: var(--muted); font-size: .78rem; }
+</style>

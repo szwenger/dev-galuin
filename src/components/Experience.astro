@@ -1,0 +1,79 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import { experience } from '../data/experience';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const entries = experience[lang];
+---
+<section class="section" id="experience">
+  <div class="section-inner">
+    <div class="section-head" data-reveal>
+      <h2>{t(lang, 'expTitle')}</h2>
+      <p>{t(lang, 'expCaption')}</p>
+    </div>
+    <div class="road" data-timeline>
+      <svg class="track" aria-hidden="true" focusable="false">
+        <path class="base" d="" />
+        <path class="ink" d="" pathLength="1" />
+      </svg>
+      <ol style={`--n:${entries.length}`}>
+      {entries.map((e, i) => (
+        <li class:list={['stop', { now: i === 0 }]} style={`--drop:${i === 0 ? 0 : i % 2 ? 100 : 20}px`} data-stop>
+          <span class="marker" data-marker><span></span></span>
+          <div class="content">
+            <p class="date">
+              {e.badge && <span class="badge">{t(lang, e.badge === 'current' ? 'badgeCurrent' : 'badgeOngoing')}</span>}
+              {e.period}
+            </p>
+            <h3>{e.role}</h3>
+            <p class="org">{e.org}{e.place && <span>{e.place}</span>}</p>
+            {e.note && <p class="note">{e.note}</p>}
+          </div>
+        </li>
+      ))}
+      </ol>
+    </div>
+  </div>
+</section>
+<script>
+  import { initTimeline } from '../scripts/timeline';
+  document.querySelectorAll<HTMLElement>('[data-timeline]').forEach(initTimeline);
+</script>
+<style>
+  .road { position: relative; margin-top: 64px; padding-top: 24px; }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 28px; }
+  .track { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .track path { fill: none; stroke-linecap: round; }
+  .base { stroke: var(--line); stroke-width: 2; stroke-dasharray: 3 7; }
+  .ink { stroke: var(--fg); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .road[data-drawn='true'] .ink { animation: draw 1.8s var(--ease) both; }
+  .road[data-drawn='true'] .now .marker { animation: pin .8s ease; }
+  @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes pin { 0% { transform: scale(.85); } 70% { transform: scale(1.12); } 100% { transform: scale(1); } }
+
+  /* Alternating drop gives the line its wave. */
+  .stop { position: relative; min-width: 0; padding-top: var(--drop); }
+  .marker { position: relative; display: grid; place-items: center; width: 38px; height: 38px; margin: 0 auto 36px; border: 1px solid var(--fg); border-radius: 50%; background: var(--bg); }
+  .marker > span { width: 10px; height: 10px; border-radius: 50%; background: var(--fg); }
+  .now .marker { background: var(--fg); }
+  .now .marker > span { background: var(--bg); }
+  .content { position: relative; background: var(--bg); }
+  .date { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-height: 28px; margin: 0 0 16px; color: var(--muted); font-size: .8rem; }
+  .badge { padding: 5px 8px; border-radius: 4px; background: var(--fg); color: var(--bg); font-size: .68rem; font-weight: 500; }
+  h3 { margin: 0 0 16px; font-size: clamp(1.25rem, 1.8vw, 1.65rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.12; }
+  .org { margin: 0 0 12px; font-size: 1rem; font-weight: 500; }
+  .org span { display: block; margin-top: 2px; color: var(--muted); font-size: .85rem; font-weight: 400; }
+  .note { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+
+  @media (max-width: 1000px) {
+    .road { padding-top: 0; margin-top: 40px; }
+    ol { grid-template-columns: 1fr; gap: 44px; }
+    .stop { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 22px; padding-top: 0; }
+    .marker { margin: 0; }
+    .content { padding-top: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ink { stroke-dashoffset: 0; }
+    .road[data-drawn='true'] .ink, .road[data-drawn='true'] .now .marker { animation: none; }
+  }
+</style>

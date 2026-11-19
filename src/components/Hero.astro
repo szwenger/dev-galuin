@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait.webp';
+import { t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const p = profile[lang];
+---
+<div class="hero" id="top">
+  <h1>
+    <span class="l1"><span class="br" aria-hidden="true">&lt;</span>{p.headline}</span>
+    <span class="l2">{p.headline2}<span class="br end" aria-hidden="true">/&gt;</span></span>
+  </h1>
+  <p class="year">©2026</p>
+  <p class="tag">{t(lang, 'tagAi')}<span class="caret" aria-hidden="true"></span></p>
+</div>
+<div class="card" data-portrait-card aria-hidden="true">
+  <Image class="face" src={portrait} alt="" width={403} height={500} loading="eager" />
+  <Image class="face back" src={portrait} alt="" width={403} height={500} loading="eager" />
+</div>
+<script>
+  import { initPortraitJourney } from '../scripts/journey';
+  const card = document.querySelector<HTMLElement>('[data-portrait-card]');
+  const slot = document.querySelector<HTMLElement>('[data-portrait-slot]');
+  if (card && slot) initPortraitJourney(card, slot);
+</script>
+<style>
+  .hero { position: relative; z-index: 3; height: 100svh; min-height: 560px; display: grid; place-items: center; padding-inline: var(--gutter); }
+  h1 { position: relative; margin: 0; margin-top: -6vh; font-weight: 900; text-transform: uppercase; letter-spacing: -.045em; line-height: .84;
+    font-size: clamp(2.1rem, 7.2vw, 8.6rem); display: grid; justify-items: center; }
+  .l1, .l2 { display: block; white-space: nowrap; position: relative; }
+  .l2 { margin-top: .02em; margin-left: .35em; }
+  .br { position: absolute; top: .1em; font-weight: 500; text-shadow: .035em .035em 0 color-mix(in srgb, var(--fg) 35%, transparent); letter-spacing: 0; }
+  .br { left: -.6em; } .br.end { left: 100%; margin-left: .1em; top: auto; bottom: .08em; }
+  .year, .tag { position: absolute; bottom: 7vh; margin: 0; }
+  .year { left: calc(var(--gutter) + 4vw); font-size: clamp(1.5rem, 3.3vw, 3rem); font-weight: 800; letter-spacing: -.03em; }
+  .tag { right: calc(var(--gutter) + 4vw); font-size: clamp(.7rem, 1.1vw, 1rem); font-weight: 600; }
+  .caret { display: inline-block; width: 1px; height: 1em; margin-left: 4px; background: currentColor; vertical-align: -.15em; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .card { position: fixed; z-index: 2; left: 0; top: 0; transform-style: preserve-3d; pointer-events: none; display: none; will-change: transform; }
+  :global(.journey-on) .card { display: block; }
+  .card :global(.face) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 11px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .card :global(.back) { transform: rotateY(180deg); }
+  @media (max-width: 600px) { .br { display: none; } .l2 { margin-left: 0; } .year { left: var(--gutter); } .tag { right: var(--gutter); } }
+  /* Phones: the portrait starts bottom-centre and is about as wide as the screen's middle, so year and tag sit under the headline instead. */
+  @media (max-width: 600px) {
+    .hero { grid-template-columns: auto auto; align-content: center; justify-content: space-between; row-gap: 22px; }
+    h1 { grid-column: 1 / -1; }
+    .year, .tag { position: static; align-self: center; }
+    .year { justify-self: start; font-size: 1.4rem; }
+    .tag { justify-self: end; }
+  }
+  @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+</style>

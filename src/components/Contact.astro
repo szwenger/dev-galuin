@@ -1,0 +1,72 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import { links, hasEmail, hasLinkedin } from '../data/profile';
+import Roll from './Roll.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section class="section" id="contact">
+  <div class="section-inner grid">
+    <div class="left" data-reveal>
+      <h2>{t(lang, 'ctTitle')}</h2>
+      <p class="copy">{t(lang, 'ctCopy')}</p>
+      {hasEmail && (
+        <p class="mail">
+          <a href={`mailto:${links.email}`}>{links.email}</a>
+          <button type="button" class="copy-btn" data-copy={links.email} data-done={t(lang, 'ctCopied')} aria-label={t(lang, 'ctCopyEmail')}>⧉</button>
+        </p>
+      )}
+      <ul class="social">
+        <li><a href={links.github} rel="me noopener" target="_blank"><Roll text="GitHub" /> <span aria-hidden="true">↗</span></a></li>
+        {hasLinkedin && <li><a href={links.linkedin} rel="me noopener" target="_blank"><Roll text="LinkedIn" /> <span aria-hidden="true">↗</span></a></li>}
+      </ul>
+    </div>
+    <form class="form" data-contact data-to={hasEmail ? links.email : undefined} data-subject={t(lang, 'ctSubject')} data-reveal style="--d:.1s">
+      <label><span>{t(lang, 'ctName')}</span><input name="name" required autocomplete="name" placeholder={t(lang, 'ctNamePh')} /></label>
+      <label><span>{t(lang, 'ctEmail')}</span><input name="email" type="email" required autocomplete="email" placeholder={t(lang, 'ctEmailPh')} /></label>
+      <label class="wide"><span>{t(lang, 'ctMsg')}</span><textarea name="message" rows="4" required placeholder={t(lang, 'ctMsgPh')}></textarea></label>
+      <div class="wide actions">
+        <button type="submit" disabled={!hasEmail}><Roll text={t(lang, 'ctSend')} /> <span aria-hidden="true">↗</span></button>
+        <small>{t(lang, 'ctHint')}</small>
+      </div>
+    </form>
+  </div>
+</section>
+<script>
+  import { buildMailto } from '../scripts/mailto';
+  document.querySelectorAll<HTMLFormElement>('form[data-contact]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const to = form.dataset.to;
+      if (!to) return;
+      const f = new FormData(form);
+      location.href = buildMailto(to, String(f.get('name')), String(f.get('email')), String(f.get('message')), form.dataset.subject);
+    });
+  });
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.copy!); b.textContent = '✓'; b.title = b.dataset.done!; } catch { /* clipboard blocked: the mailto link still works */ }
+    });
+  });
+</script>
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  h2 { margin: 0 0 20px; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 600; letter-spacing: -.045em; line-height: .95; }
+  .copy { margin: 0 0 28px; color: var(--muted); max-width: 22em; }
+  .mail { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; font-size: 1.05rem; font-weight: 600; }
+  .mail a { text-decoration: none; border-bottom: 1px solid var(--line); }
+  .copy-btn { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+  .social { list-style: none; margin: 0; padding: 0; display: flex; gap: 22px; font-size: .9rem; font-weight: 600; }
+  .social a { text-decoration: none; display: inline-flex; gap: 6px; }
+  .form { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; padding-top: 8px; }
+  .wide { grid-column: 1 / -1; }
+  label span { display: block; margin-bottom: 6px; font-size: .75rem; font-weight: 600; }
+  input, textarea { width: 100%; padding: 8px 0 10px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--fg); font: inherit; font-size: .95rem; resize: vertical; transition: border-color .3s var(--ease); }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: .7; }
+  input:focus, textarea:focus { outline: none; border-bottom-color: var(--fg); box-shadow: 0 1px 0 var(--fg); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  button[type='submit'] { display: inline-flex; gap: 8px; align-items: center; padding: 12px 20px; border: 0; border-radius: 7px; background: var(--fg); color: var(--bg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
+  button[type='submit']:disabled { opacity: .4; cursor: not-allowed; }
+  small { color: var(--muted); font-size: .75rem; max-width: 28em; }
+  @media (max-width: 760px) { .grid, .form { grid-template-columns: 1fr; } }
+</style>
