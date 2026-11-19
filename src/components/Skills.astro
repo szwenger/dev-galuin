@@ -1,0 +1,40 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import { skills } from '../data/skills';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section class="section" id="skills">
+  <div class="section-inner">
+    <div class="section-head" data-reveal>
+      <h2>{t(lang, 'skillsTitle')}</h2>
+      <p>{t(lang, 'skillsCaption')}</p>
+    </div>
+    <div class="cols">
+      {skills[lang].map((g, i) => (
+        <div class="col" data-reveal style={`--d:${i * 0.12}s`}>
+          <h3>{g.title}</h3>
+          <p>{g.text}</p>
+          <ul>{g.items.map((s) => <li class:list={{ hot: g.hot.includes(s) }}>{s}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); margin-top: 64px; }
+  /* Staircase: each column starts a bit lower than the previous one. */
+  .col { border-top: 1px solid var(--line); padding-top: 22px; }
+  .col:nth-child(2) { margin-top: 36px; }
+  .col:nth-child(3) { margin-top: 72px; }
+  h3 { margin: 0 0 8px; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
+  p { margin: 0 0 22px; color: var(--muted); font-size: .88rem; line-height: 1.5; max-width: 26em; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  li { padding: 7px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); font-size: .8rem; font-weight: 500; transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease); }
+  li.hot { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  @media (hover: hover) { li:hover { background: var(--fg); color: var(--bg); transform: translateY(-2px); } }
+  @media (max-width: 860px) {
+    .cols { grid-template-columns: 1fr; margin-top: 40px; }
+    .col:nth-child(n) { margin-top: 0; }
+  }
+</style>

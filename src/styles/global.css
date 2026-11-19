@@ -1,0 +1,23 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); line-height: 1.5; overflow-x: hidden; }
+a { color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+.wrap { padding-inline: var(--gutter); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.reveal-on [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease) var(--d, 0s), transform .8s var(--ease) var(--d, 0s); }
+
+/* Shared section frame: centred column, heading left, caption right. */
+.section { position: relative; z-index: 1; padding: clamp(96px, 16vh, 180px) var(--gutter) 0; }
+.section-inner { max-width: 1180px; margin-inline: auto; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.section-head h2 { margin: 0; font-size: clamp(2.4rem, 4.2vw, 3.6rem); font-weight: 600; letter-spacing: -.035em; line-height: 1; }
+.section-head p { margin: 0; max-width: 22em; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+
+/* Link/button label: the whole control grows slightly on hover. */
+:is(a, button):has(> .roll) { transition: transform .25s var(--ease); }
+@media (hover: hover) { :is(a, button):not(:disabled):has(> .roll):hover { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { :is(a, button):has(> .roll) { transition: none; transform: none !important; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.reveal-on [data-reveal].is-in { opacity: 1; transform: none; }

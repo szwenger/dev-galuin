@@ -1,0 +1,48 @@
+---
+import '../styles/tokens.css';
+import '../styles/global.css';
+import type { Lang } from '../i18n/ui';
+interface Props { lang: Lang; title: string; description: string; noindex?: boolean }
+const { lang, title, description, noindex = false } = Astro.props;
+const site = 'https://dev.galuin.com';
+const urls = { en: `${site}/`, de: `${site}/de/` };
+---
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={`${site}/og.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Simon Zwenger, software & product, dev.galuin.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex
+      ? <meta name="robots" content="noindex" />
+      : <>
+          <meta property="og:url" content={urls[lang]} />
+          <link rel="canonical" href={urls[lang]} />
+          <link rel="alternate" hreflang="en" href={urls.en} />
+          <link rel="alternate" hreflang="de" href={urls.de} />
+          <link rel="alternate" hreflang="x-default" href={urls.en} />
+        </>}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
