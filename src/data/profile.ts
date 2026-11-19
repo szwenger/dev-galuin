@@ -31,9 +31,9 @@ export const profile: Record<Lang, Profile> = {
 
 export const SENTINEL = 'TODO-ASK-SIMON';
 // If either is set back to SENTINEL, the site hides it locally and the CI (deploy) build fails.
-// Email is temporary; planned switch to a self-hosted address (e.g. simon@zwenger.io).
+// request@galuin.com is a Squarespace forwarding address.
 export const links = {
-  email: 'Simon1997@t-online.de' as string,
+  email: 'request@galuin.com' as string,
   linkedin: 'https://www.linkedin.com/in/simon-zwenger-a8a358351/' as string,
   github: 'https://github.com/szwenger',
 };
