@@ -1,4 +1,4 @@
-# dev.galuin.com
+# simon.zwenger.dev
 
 Portfolio of Simon Zwenger: projects, experience, freelance offer and contact. Static site built with [Astro](https://astro.build), English at `/`, German at `/de/`, dark and light theme.
 
@@ -29,8 +29,8 @@ One-time setup (manual):
 
 1. Create the GitHub repository and push `main`.
 2. Repository Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-3. DNS for galuin.com: add a `CNAME` record `dev` pointing to `szwenger.github.io`.
-4. Settings → Pages → Custom domain: `dev.galuin.com`, then tick **Enforce HTTPS** once the certificate is issued.
+3. DNS for zwenger.dev (Cloudflare, DNS only): add a `CNAME` record `simon` pointing to `szwenger.github.io`.
+4. Settings → Pages → Custom domain: `simon.zwenger.dev`, then tick **Enforce HTTPS** once the certificate is issued.
 
 ## Changing the contact email
 

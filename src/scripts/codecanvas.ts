@@ -1,6 +1,6 @@
 const CODE = `const stack = ['python', 'typescript', 'haskell', 'scala'];
 async function ship(idea) { const plan = await think(idea); return build(plan); }
-export default defineConfig({ site: 'https://dev.galuin.com' });
+export default defineConfig({ site: 'https://simon.zwenger.dev' });
 def automate(task): return [step.run() for step in task.steps if step.ready]
 import { agent, tool } from './llm'; // prompts, evals, retries
 SELECT * FROM backlog WHERE status = 'ready' ORDER BY impact DESC;

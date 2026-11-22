@@ -41,7 +41,7 @@ test('no private data in build', { skip: privateTerms.length ? false : `${PRIVAT
 });
 
 test('CNAME', () => {
-  assert.equal(read('CNAME').trim(), 'dev.galuin.com');
+  assert.equal(read('CNAME').trim(), 'simon.zwenger.dev');
 });
 
 test('content present in both languages', () => {
@@ -150,7 +150,7 @@ test('projects: second shot overlaps the main one where one exists', () => {
   }
 });
 
-const SITE = 'https://dev.galuin.com';
+const SITE = 'https://simon.zwenger.dev';
 
 test('404 page: own page, links home in both languages, not indexed', () => {
   const h = read('404.html');

@@ -4,7 +4,7 @@ import '../styles/global.css';
 import type { Lang } from '../i18n/ui';
 interface Props { lang: Lang; title: string; description: string; noindex?: boolean }
 const { lang, title, description, noindex = false } = Astro.props;
-const site = 'https://dev.galuin.com';
+const site = 'https://simon.zwenger.dev';
 const urls = { en: `${site}/`, de: `${site}/de/` };
 ---
 <!doctype html>
@@ -20,7 +20,7 @@ const urls = { en: `${site}/`, de: `${site}/de/` };
     <meta property="og:image" content={`${site}/og.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Simon Zwenger, software & product, dev.galuin.com" />
+    <meta property="og:image:alt" content="Simon Zwenger, software & product, simon.zwenger.dev" />
     <meta name="twitter:card" content="summary_large_image" />
     {noindex
       ? <meta name="robots" content="noindex" />
