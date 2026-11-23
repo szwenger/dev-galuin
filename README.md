@@ -1,6 +1,6 @@
 # simon.zwenger.dev
 
-Portfolio of Simon Zwenger: projects, experience, freelance offer and contact. Static site built with [Astro](https://astro.build), English at `/`, German at `/de/`, dark and light theme.
+Portfolio of Simon Zwenger: projects, experience, writing and contact. Static site built with [Astro](https://astro.build), English at `/`, German at `/de/`, dark and light theme.
 
 ## Run
 

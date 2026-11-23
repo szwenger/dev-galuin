@@ -1,0 +1,19 @@
+---
+import LegalShell from './LegalShell.astro';
+import { privacy } from '../data/privacy';
+import { t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const doc = privacy[lang];
+---
+<LegalShell lang={lang} slug="privacy" title={doc.title}>
+  <Fragment set:html={'<!-- DRAFT: privacy text drafted for Simon to check before relying on it. Not legal advice. -->'} />
+  <h1>{doc.title}</h1>
+  <p class="meta">{t(lang, 'legalUpdated')}: {doc.updated}</p>
+  {doc.sections.map((s) => (
+    <section>
+      <h2>{s.h}</h2>
+      {s.p.map((para) => <p set:html={para} />)}
+    </section>
+  ))}
+</LegalShell>

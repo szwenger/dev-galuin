@@ -16,6 +16,11 @@ const p = profile[lang];
     <div class="row small">
       <span>©2026 {p.name}</span>
       <span>{p.location}</span>
+      <span class="links">
+        <a href={lang === 'en' ? '/impressum/' : '/de/impressum/'}>{t(lang, 'impressum')}</a>
+        <a href={lang === 'en' ? '/privacy/' : '/de/privacy/'}>{t(lang, 'privacy')}</a>
+        <a href={lang === 'en' ? '/licenses/' : '/de/licenses/'}>{t(lang, 'licenses')}</a>
+      </span>
     </div>
   </div>
 </footer>
@@ -28,5 +33,8 @@ const p = profile[lang];
   /* Oversized typographic sign-off, clipped at the baseline. */
   .name { margin: 6vh 0 0; font-size: clamp(5rem, 22vw, 20rem); font-weight: 700; letter-spacing: -.06em; line-height: .78; text-align: center; overflow: hidden; }
   .name span { color: var(--muted); }
-  .small { color: var(--muted); font-size: .78rem; }
+  .small { color: var(--muted); font-size: .78rem; flex-wrap: wrap; }
+  .links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .links a { padding-block: 8px; margin-block: -8px; text-decoration: none; }
+  .links a:hover { color: var(--fg); text-decoration: underline; }
 </style>

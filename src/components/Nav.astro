@@ -4,7 +4,7 @@ import { profile } from '../data/profile';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const other = lang === 'en' ? '/de/' : '/';
-const items = [['skills', 'navSkills'], ['projects', 'navProjects'], ['experience', 'navExperience'], ['freelance', 'navFreelance'], ['contact', 'navContact']] as const;
+const items = [['skills', 'navSkills'], ['projects', 'navProjects'], ['experience', 'navExperience'], ['looking', 'navLooking'], ['contact', 'navContact']] as const;
 ---
 <header class="nav">
   <a class="brand" href="#top">{profile[lang].name.split(' ')[0]}</a>

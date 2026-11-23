@@ -46,8 +46,8 @@ test('CNAME', () => {
 
 test('content present in both languages', () => {
   const titles = {
-    'index.html': ['Websites', 'Automation', 'PC builds'],
-    'de/index.html': ['Websites', 'Automatisierung', 'PC-Builds'],
+    'index.html': ['Roles', 'What I bring', 'Alongside my studies'],
+    'de/index.html': ['Rollen', 'Was ich mitbringe', 'Neben dem Studium'],
   };
   for (const [f, ts] of Object.entries(titles)) {
     const h = read(f);
@@ -56,10 +56,10 @@ test('content present in both languages', () => {
   }
 });
 
-test('one section each for skills, experience, freelance, contact', () => {
+test('one section each for skills, experience, looking, contact', () => {
   for (const f of ['index.html', 'de/index.html']) {
     const h = read(f);
-    for (const id of ['skills', 'experience', 'freelance', 'contact']) {
+    for (const id of ['skills', 'experience', 'looking', 'contact']) {
       const n = h.match(new RegExp(`<section[^>]*id="${id}"`, 'g'))?.length ?? 0;
       assert.equal(n, 1, `#${id} in ${f}`);
     }
@@ -200,4 +200,39 @@ test('repo: planning docs and handoff stay out of the public repo', async () => 
   let tracked;
   try { tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' }).split('\n'); } catch { return; } // no git (e.g. tarball): nothing to check
   for (const p of tracked) assert.ok(!/^(docs\/|HANDOFF\.md$)/.test(p), `${p} would be published`);
+});
+
+const LEGAL = { en: ['', 'impressum', 'privacy', 'licenses'], de: ['de/', 'de/impressum', 'de/privacy', 'de/licenses'] };
+
+test('legal pages exist in both languages and the footer links to them', () => {
+  for (const [lang, [home, ...slugs]] of Object.entries(LEGAL)) {
+    const foot = read(`${home}index.html`);
+    for (const s of slugs) {
+      assert.ok(existsSync(join('dist', s, 'index.html')), `${s} missing`);
+      const slug = s.split('/').pop();
+      assert.ok(foot.includes(`href="${lang === 'en' ? '' : '/de'}/${slug}/"`), `footer link to ${slug} (${lang})`);
+    }
+  }
+  assert.ok(existsSync(join('dist', 'licenses', 'OFL-SpaceGrotesk.txt')), 'OFL text shipped');
+});
+
+test('impressum: names the owner and email; placeholder address shows the pending line and noindex, never the raw sentinel', () => {
+  for (const f of ['impressum/index.html', 'de/impressum/index.html']) {
+    const h = read(f);
+    assert.match(h, /Simon Zwenger/);
+    assert.match(h, /request@zwenger\.dev/);
+    assert.doesNotMatch(h, /TODO-ADDRESS/);
+    assert.match(h, /data-address-pending/);
+    assert.match(h, /<meta name="robots" content="noindex"/);
+    assert.doesNotMatch(h, /before launch|vor dem Start/);
+  }
+});
+
+test('privacy: no cookies claim, names GitHub and Cloudflare, no third-party hosts loaded', () => {
+  for (const f of ['privacy/index.html', 'de/privacy/index.html']) {
+    const h = read(f);
+    assert.match(h, /GitHub/);
+    assert.match(h, /Cloudflare/);
+    assert.match(h, /localStorage/);
+  }
 });

@@ -1,18 +1,18 @@
 ---
 import { t, type Lang } from '../i18n/ui';
-import { freelance } from '../data/freelance';
+import { looking } from '../data/looking';
 import Roll from './Roll.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
-<section class="section" id="freelance">
+<section class="section" id="looking">
   <div class="section-inner">
     <div class="section-head" data-reveal>
-      <h2>{t(lang, 'flTitle')}</h2>
-      <p>{t(lang, 'flCaption')}</p>
+      <h2>{t(lang, 'lkTitle')}</h2>
+      <p>{t(lang, 'lkCaption')}</p>
     </div>
     <ol class="list">
-      {freelance[lang].map((s, i) => (
+      {looking[lang].map((s, i) => (
         <li data-reveal style={`--d:${i * 0.1}s`}>
           <span class="num">{String(i + 1).padStart(2, '0')}</span>
           <h3>{s.title}</h3>
@@ -20,7 +20,7 @@ const { lang } = Astro.props;
         </li>
       ))}
     </ol>
-    <a class="cta" href="#contact"><Roll text={t(lang, 'flCta')} /> <span aria-hidden="true">↗</span></a>
+    <a class="cta" href="#contact"><Roll text={t(lang, 'lkCta')} /> <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 <style>

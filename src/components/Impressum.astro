@@ -1,0 +1,24 @@
+---
+import LegalShell from './LegalShell.astro';
+import { hasAddress, legal } from '../data/legal';
+import type { Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const copy = {
+  en: { head: 'Legal notice', basis: 'Information pursuant to § 5 DDG', contact: 'Contact', email: 'Email', pending: 'Postal address: being added shortly. Until then, please reach me by email.', note: 'This is a translation. The German version is legally binding.' },
+  de: { head: 'Impressum', basis: 'Angaben gemäß § 5 DDG', contact: 'Kontakt', email: 'E-Mail', pending: 'Anschrift: wird in Kürze ergänzt. Bis dahin erreichst du mich per E-Mail.', note: '' },
+}[lang];
+const address = hasAddress ? legal.address : [];
+---
+<LegalShell lang={lang} slug="impressum" title={copy.head} noindex={!hasAddress}>
+  <h1>{copy.head}</h1>
+  {copy.note && <p class="meta">{copy.note}</p>}
+  <h2>{copy.basis}</h2>
+  <p>
+    {legal.name}<br />
+    {address.map((line) => <>{line}<br /></>)}
+    {!hasAddress && <em data-address-pending>{copy.pending}</em>}
+  </p>
+  <h2>{copy.contact}</h2>
+  <p>{copy.email}: <a href={`mailto:${legal.email}`}>{legal.email}</a></p>
+</LegalShell>
