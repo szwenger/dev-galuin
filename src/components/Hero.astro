@@ -16,7 +16,7 @@ const p = profile[lang];
   <p class="tag">{t(lang, 'tagAi')}<span class="caret" aria-hidden="true"></span></p>
 </div>
 <div class="card" data-portrait-card aria-hidden="true">
-  <Image class="face" src={portrait} alt="" width={403} height={500} loading="eager" />
+  <Image class="face" src={portrait} alt="" width={403} height={500} loading="eager" fetchpriority="high" />
   <Image class="face back" src={portrait} alt="" width={403} height={500} loading="eager" />
 </div>
 <script>
