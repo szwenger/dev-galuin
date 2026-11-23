@@ -237,3 +237,9 @@ test('privacy: no cookies claim, names GitHub and Cloudflare, no third-party hos
     assert.match(h, /localStorage/);
   }
 });
+
+test('contact: the GitHub link carries the GitHub logo', () => {
+  for (const f of ['index.html', 'de/index.html']) {
+    assert.match(read(f), /<a[^>]*rel="me noopener"[^>]*><svg[^>]*class="brand"[^>]*fill="currentColor"[^>]*>[^]*?<span class="roll">GitHub<\/span>/, `GitHub logo on ${f}`);
+  }
+});
