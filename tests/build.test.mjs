@@ -233,6 +233,7 @@ test('privacy: no cookies claim, names GitHub and Cloudflare, no third-party hos
     const h = read(f);
     assert.match(h, /GitHub/);
     assert.match(h, /Cloudflare/);
+    assert.match(h, /Gmail/);
     assert.match(h, /localStorage/);
   }
 });

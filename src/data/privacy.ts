@@ -5,6 +5,7 @@ export interface PrivacyDoc { title: string; updated: string; sections: { h: str
 
 const GH = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement';
 const CF = 'https://www.cloudflare.com/privacypolicy/';
+const GG = 'https://policies.google.com/privacy';
 const LI = 'https://www.linkedin.com/legal/privacy-policy';
 const MAIL = `<a href="mailto:${links.email}">${links.email}</a>`;
 
@@ -24,6 +25,7 @@ export const privacy: Record<Lang, PrivacyDoc> = {
       { h: 'Keine Drittinhalte beim Laden', p: ['Schriften und Bilder liegen auf dieser Website. Beim Laden einer Seite werden keine Inhalte von Dritten nachgeladen, deshalb erhalten Dritte dabei auch keine Daten von dir.'] },
       { h: 'Kontakt per E-Mail', p: [
         `Das Kontaktformular verschickt nichts: Es öffnet nur dein Mailprogramm mit einem vorbereiteten Entwurf. Wenn du mir schreibst (${MAIL}), läuft die Nachricht über die Weiterleitung von Cloudflare (Cloudflare Email Routing, Cloudflare, Inc., USA) in mein Postfach. Nach eigener Angabe stützt sich Cloudflare bei Übermittlungen auf das EU-US Data Privacy Framework und Standardvertragsklauseln (<a href="${CF}" rel="noopener">Datenschutzerklärung von Cloudflare</a>). Wie lange Cloudflare weitergeleitete Nachrichten oder deren Metadaten speichert, gibt Cloudflare dort nicht an.`,
+        `Mein Postfach ist ein Gmail-Konto (Google). Dort liegen die weitergeleiteten Nachrichten und meine Antworten; Google kann sie auch in den USA verarbeiten, siehe die <a href="${GG}" rel="noopener">Datenschutzerklärung von Google</a>.`,
         'Ich verarbeite deine Nachricht und Absenderadresse nur, um zu antworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Ich lösche sie, sobald die Angelegenheit erledigt ist und keine Aufbewahrungspflicht besteht.',
       ] },
       { h: 'Links zu GitHub und LinkedIn', p: [`Wenn du einem Link zu GitHub oder LinkedIn folgst, verlässt du diese Website. Ab dann gelten die Datenschutzbestimmungen des Anbieters: <a href="${GH}" rel="noopener">GitHub</a>, <a href="${LI}" rel="noopener">LinkedIn</a>.`] },
@@ -44,6 +46,7 @@ export const privacy: Record<Lang, PrivacyDoc> = {
       { h: 'No third-party content on load', p: ['Fonts and images are served from this site. Loading a page requests nothing from third parties, so no third party receives data about you when you do.'] },
       { h: 'Contact by email', p: [
         `The contact form sends nothing: it only opens your mail app with a prepared draft. If you write to me (${MAIL}), the message passes through Cloudflare's forwarding (Cloudflare Email Routing, Cloudflare, Inc., USA) into my mailbox. By its own statement, Cloudflare relies on the EU-US Data Privacy Framework and standard contractual clauses for transfers (<a href="${CF}" rel="noopener">Cloudflare privacy policy</a>). Cloudflare does not state there how long it keeps forwarded messages or their metadata.`,
+        `My mailbox is a Gmail account (Google). The forwarded messages and my replies are stored there; Google may also process them in the USA, see the <a href="${GG}" rel="noopener">Google privacy policy</a>.`,
         'I use your message and address only to reply (Art. 6(1)(b) or (f) GDPR). I delete them once the matter is closed and no retention duty applies.',
       ] },
       { h: 'Links to GitHub and LinkedIn', p: [`When you follow a link to GitHub or LinkedIn you leave this site, and that provider's privacy rules apply: <a href="${GH}" rel="noopener">GitHub</a>, <a href="${LI}" rel="noopener">LinkedIn</a>.`] },
