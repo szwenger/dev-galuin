@@ -7,8 +7,9 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const p = profile[lang];
 ---
+<script is:inline>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('hl-on');</script>
 <div class="hero" id="top">
-  <h1>
+  <h1 data-headline>
     <span class="l1"><span class="br" aria-hidden="true">&lt;</span>{p.headline}</span>
     <span class="l2">{p.headline2}<span class="br end" aria-hidden="true">/&gt;</span></span>
   </h1>
@@ -24,6 +25,9 @@ const p = profile[lang];
   const card = document.querySelector<HTMLElement>('[data-portrait-card]');
   const slot = document.querySelector<HTMLElement>('[data-portrait-slot]');
   if (card && slot) initPortraitJourney(card, slot);
+  import { initHeadline } from '../scripts/headline';
+  const h1 = document.querySelector<HTMLElement>('[data-headline]');
+  if (h1) initHeadline(h1);
 </script>
 <style>
   .hero { position: relative; z-index: 3; height: 100svh; min-height: 560px; display: grid; place-items: center; padding-inline: var(--gutter); }
@@ -51,5 +55,14 @@ const p = profile[lang];
     .year { justify-self: start; font-size: 1.4rem; }
     .tag { justify-self: end; }
   }
+  /* Entrance (set up by scripts/headline.ts). The inline script hides the plain text for the split-second before the letters exist; the fallback shows it if the script never runs. */
+  :global(.hl-on) h1:not(.split) { visibility: hidden; animation: show 0s 1.6s forwards; }
+  h1.split :global(.ch) { display: inline-block; animation: rise .95s var(--ease) calc(var(--i) * 45ms + 120ms) both; }
+  h1.split.live :global(.ch) { transition: translate .35s var(--ease); }
+  h1.split .br { animation: fade .8s var(--ease) 1s both; }
+  :global(.hl-on) .year, :global(.hl-on) .tag { animation: fade .8s var(--ease) 1.15s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(.45em) rotate(5deg); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes show { to { visibility: visible; } }
   @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
 </style>
