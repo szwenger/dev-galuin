@@ -176,9 +176,10 @@ test('social preview: og:image and twitter card point at a 1200x630 PNG', () => 
 
 test('deploy workflow: tests gate the Pages deploy', () => {
   const w = readFileSync('.github/workflows/pages.yml', 'utf8');
-  for (const s of ['npm ci', 'npm run build', 'npm test', 'actions/upload-pages-artifact@v', 'actions/deploy-pages@v', 'pages: write', 'id-token: write']) {
+  for (const s of ['npm ci', 'npm run build', 'npm test', 'actions/upload-pages-artifact@', 'actions/deploy-pages@', 'pages: write', 'id-token: write']) {
     assert.ok(w.includes(s), `${s} missing in workflow`);
   }
+  for (const m of w.matchAll(/uses: (\S+)/g)) assert.match(m[1], /@[0-9a-f]{40}$/, `${m[1]} is not pinned to a commit`);
   assert.match(w, /branches:\s*\[\s*main\s*\]/);
   assert.match(w, /path:\s*\.?\/?dist/);
 });

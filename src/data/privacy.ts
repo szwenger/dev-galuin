@@ -9,7 +9,6 @@ const GG = 'https://policies.google.com/privacy';
 const LI = 'https://www.linkedin.com/legal/privacy-policy';
 const MAIL = `<a href="mailto:${links.email}">${links.email}</a>`;
 
-// DRAFT: written for Simon to check before relying on it. Not legal advice.
 export const privacy: Record<Lang, PrivacyDoc> = {
   de: {
     title: 'Datenschutzerklärung',

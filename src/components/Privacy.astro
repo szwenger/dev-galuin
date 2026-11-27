@@ -7,7 +7,6 @@ const { lang } = Astro.props;
 const doc = privacy[lang];
 ---
 <LegalShell lang={lang} slug="privacy" title={doc.title}>
-  <Fragment set:html={'<!-- DRAFT: privacy text drafted for Simon to check before relying on it. Not legal advice. -->'} />
   <h1>{doc.title}</h1>
   <p class="meta">{t(lang, 'legalUpdated')}: {doc.updated}</p>
   {doc.sections.map((s) => (
