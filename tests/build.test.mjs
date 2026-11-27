@@ -216,14 +216,26 @@ test('legal pages exist in both languages and the footer links to them', () => {
   assert.ok(existsSync(join('dist', 'licenses', 'OFL-SpaceGrotesk.txt')), 'OFL text shipped');
 });
 
-test('impressum: names the owner and email; placeholder address shows the pending line and noindex, never the raw sentinel', () => {
+// legal.ts imports ./profile without an extension, which Node cannot load, so read the address from the source text.
+const legalSrc = readFileSync('src/data/legal.ts', 'utf8');
+const addrMatch = legalSrc.match(/address:\s*\[([^\]]*)\]/);
+const addrLines = [...(addrMatch?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]);
+const legalData = { hasAddress: addrLines.length > 0, legal: { address: addrLines } };
+
+test('impressum: names the owner and email; placeholder shows the pending line and noindex, a real address shows every line and is indexed, never the raw sentinel', () => {
   for (const f of ['impressum/index.html', 'de/impressum/index.html']) {
     const h = read(f);
     assert.match(h, /Simon Zwenger/);
     assert.match(h, /request@zwenger\.dev/);
     assert.doesNotMatch(h, /TODO-ADDRESS/);
-    assert.match(h, /data-address-pending/);
-    assert.match(h, /<meta name="robots" content="noindex"/);
+    if (legalData.hasAddress) {
+      assert.doesNotMatch(h, /data-address-pending/);
+      assert.doesNotMatch(h, /<meta name="robots" content="noindex"/);
+      for (const line of legalData.legal.address) assert.ok(h.includes(line), `${f}: ${line}`);
+    } else {
+      assert.match(h, /data-address-pending/);
+      assert.match(h, /<meta name="robots" content="noindex"/);
+    }
     assert.doesNotMatch(h, /before launch|vor dem Start/);
   }
 });
